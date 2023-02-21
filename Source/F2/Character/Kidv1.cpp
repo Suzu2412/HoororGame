@@ -5,6 +5,7 @@
 #include <GameFramework/SpringArmComponent.h>
 #include <GameFramework/CharacterMovementComponent.h>
 #include <Camera/CameraComponent.h>
+#include "F2/MyComponents/AttackComponent.h"
 
 // Sets default values
 AKidv1::AKidv1()
@@ -23,7 +24,8 @@ AKidv1::AKidv1()
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
-
+	//Component
+	AttackComponent = CreateDefaultSubobject<UAttackComponent>(TEXT("AttackComponent"));
 }
 
 // Called to bind functionality to input
@@ -43,6 +45,15 @@ void AKidv1::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("Turn", this, &AKidv1::Turn);
 }
 
+void AKidv1::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	if (AttackComponent)
+	{
+		AttackComponent->SetCharacter(this);
+	}
+}
+
 // Called when the game starts or when spawned
 void AKidv1::BeginPlay()
 {
@@ -54,6 +65,7 @@ void AKidv1::BeginPlay()
 
 void AKidv1::AttacklButtomPressed()
 {
+	AttackComponent->RequestAttack();
 }
 
 void AKidv1::SprintlButtomPressed()
@@ -92,13 +104,6 @@ void AKidv1::LookUp(float Value)
 void AKidv1::Turn(float Value)
 {
 	AddControllerYawInput(Value);
-}
-
-// Called every frame
-void AKidv1::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
 }
 
 

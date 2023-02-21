@@ -9,6 +9,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UAttackComponent;
 
 UCLASS()
 class F2_API AKidv1 : public ACharacter
@@ -16,14 +17,23 @@ class F2_API AKidv1 : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
+
 	AKidv1();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void PostInitializeComponents() override;
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintCallable)
+	virtual void AttacklButtomPressed();
+	virtual void SprintlButtomPressed();
+	virtual void SprintlButtomReleased();
+	virtual void MoveForward(float Value);
+	virtual void MoveRight(float Value);
+	virtual void LookUp(float Value);
+	virtual void Turn(float Value);
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Camera)
@@ -40,18 +50,11 @@ private:
 	UPROPERTY(EditAnywhere, Category = Movement)
 	float JogSpeed = 500.f;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	UAttackComponent* AttackComponent;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	virtual void AttacklButtomPressed();
-	virtual void SprintlButtomPressed();
-	virtual void SprintlButtomReleased();
-	virtual void MoveForward(float Value);
-	virtual void MoveRight(float Value);
-	virtual void LookUp(float Value);
-	virtual void Turn(float Value);
-
+	//setter va getter
 public:	
-	
+
+	FORCEINLINE UFUNCTION(BlueprintCallable) UAttackComponent* GetAttackComponent() const { return AttackComponent; }
 };
