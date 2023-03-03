@@ -17,10 +17,23 @@ UAttackComponent::UAttackComponent()
 
 void UAttackComponent::RequestAttack()
 {
-	if (AttackState == EAttackState::ECS_Free && AttackAnimMontages.IsEmpty()==false)
+	if (CanAttack())
 	{
+		bIReachingComboAttack = false;
 		Attack();
 	}
+}
+
+bool UAttackComponent::CanAttack()
+{
+	bool bDesiredAttackState = AttackState == EAttackState::ECS_Free || (bIReachingComboAttack && AttackState == EAttackState::ECS_Attack);
+	return
+		bDesiredAttackState	&& AttackAnimMontages.IsEmpty() == false;
+}
+
+void UAttackComponent::ComboAttack()
+{
+	bIReachingComboAttack = true;
 }
 
 
@@ -36,11 +49,17 @@ void UAttackComponent::BeginPlay()
 
 void UAttackComponent::Attack()
 {
-	UAnimMontage* MontageToPlay = AttackAnimMontages[0];
+	UAnimMontage* MontageToPlay = AttackAnimMontages[AttackIndex];
 	if (MontageToPlay) 
 	{
 		PlayAnimMontage(MontageToPlay);
 		AttackState = EAttackState::ECS_Attack;
+
+		AttackIndex++;
+		if (AttackIndex > AttackAnimMontages.Num() - 1)
+		{
+			AttackIndex = 0;
+		}
 	}
 
 }

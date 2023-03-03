@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+
 #include "F2/Types/AttackState.h"
 #include "AttackComponent.generated.h"
 
@@ -20,6 +21,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void RequestAttack();
+
+	bool CanAttack();
+
+	UFUNCTION(BlueprintCallable)
+	void ComboAttack();
 
 	void PlayAnimMontage(UAnimMontage* MontageToPlay);
 	UFUNCTION(BlueprintCallable)
@@ -39,6 +45,10 @@ private:
 
 	UPROPERTY()
 	ACharacter* Character;
+
+	bool bIReachingComboAttack = false;
+	int32 AttackIndex = 0;
+
 public:	
 
 	FORCEINLINE void SetCharacter(ACharacter* Value) { Character = Value; }

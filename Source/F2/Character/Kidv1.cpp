@@ -54,6 +54,11 @@ void AKidv1::PostInitializeComponents()
 	}
 }
 
+UAttackComponent* AKidv1::GetAttack_Implementation() const
+{
+	return AttackComponent;
+}
+
 // Called when the game starts or when spawned
 void AKidv1::BeginPlay()
 {

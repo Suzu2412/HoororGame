@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "F2/Types/SpeedMode.h"
+#include "F2/Interface/Attackableinterface.h"
 #include "Kidv1.generated.h"
 
 class USpringArmComponent;
@@ -12,7 +13,7 @@ class UCameraComponent;
 class UAttackComponent;
 
 UCLASS()
-class F2_API AKidv1 : public ACharacter
+class F2_API AKidv1 : public ACharacter, public IAttackableinterface
 {
 	GENERATED_BODY()
 
@@ -23,6 +24,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void PostInitializeComponents() override;
 
+	UAttackComponent* GetAttack_Implementation() const;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
