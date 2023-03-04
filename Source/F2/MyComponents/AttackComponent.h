@@ -24,12 +24,13 @@ public:
 
 	bool CanAttack();
 
-	UFUNCTION(BlueprintCallable)
-	void ComboAttack();
-
 	void PlayAnimMontage(UAnimMontage* MontageToPlay);
+	
 	UFUNCTION(BlueprintCallable)
 	void ResetAttack();
+	
+	UFUNCTION(BlueprintCallable)
+	void ComboAttack();
 
 protected:
 	// Called when the game starts

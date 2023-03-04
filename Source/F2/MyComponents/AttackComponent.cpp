@@ -15,6 +15,15 @@ UAttackComponent::UAttackComponent()
 	// ...
 }
 
+// Called when the game starts
+void UAttackComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	AttackState = EAttackState::ECS_Free;
+	// ...
+
+}
+
 void UAttackComponent::RequestAttack()
 {
 	if (CanAttack())
@@ -26,7 +35,7 @@ void UAttackComponent::RequestAttack()
 
 bool UAttackComponent::CanAttack()
 {
-	bool bDesiredAttackState = AttackState == EAttackState::ECS_Free || (bIReachingComboAttack && AttackState == EAttackState::ECS_Attack);
+	bool bDesiredAttackState = AttackState == EAttackState::ECS_Free || ((bIReachingComboAttack == true) && (AttackState == EAttackState::ECS_Attack));
 	return
 		bDesiredAttackState	&& AttackAnimMontages.IsEmpty() == false;
 }
@@ -36,16 +45,6 @@ void UAttackComponent::ComboAttack()
 	bIReachingComboAttack = true;
 }
 
-
-
-// Called when the game starts
-void UAttackComponent::BeginPlay()
-{
-	Super::BeginPlay();
-	AttackState = EAttackState::ECS_Free;
-	// ...
-	
-}
 
 void UAttackComponent::Attack()
 {
